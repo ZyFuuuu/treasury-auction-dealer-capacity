@@ -1,0 +1,227 @@
+% ============================================================
+%  Econ 191 — Proposal V2
+%  Dealer Intermediation Capacity and U.S. Treasury Auction Pricing
+%
+%  Upload this file to Overleaf together with:
+%     figure1.png   (allotment shares + high-minus-median spread)
+%     figure2.png   (auction cycle, locked sample)
+% ============================================================
+
+\documentclass[12pt]{article}
+
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{newtxtext,newtxmath}   % Times New Roman
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\captionsetup[figure]{font=small,labelfont=bf,skip=6pt}
+\captionsetup[table]{font=small,labelfont=bf,skip=6pt}
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% Section headings: bold, run into the text block
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.4em}
+
+\begin{document}
+
+\begin{center}
+{\large\bfseries Dealer Intermediation Capacity and U.S. Treasury Auction Pricing}\\[0.3em]
+{\normalsize Zongyi Fu \quad\textbar\quad Econ 191, Fall 2026 \quad\textbar\quad Proposal V2}
+\end{center}
+
+\vspace{0.6em}
+
+% ============================================================
+\section{Page 1: Research Question, Approach, and Data}
+
+My research question is: How do primary dealer intermediation conditions affect the pricing of U.S. Treasury auctions? Primary dealers have traditionally played an important role in absorbing new Treasury supply and providing liquidity in the secondary market. When dealers already hold large Treasury inventories, their willingness or ability to absorb additional securities may become weaker, and the auction may require a larger price concession. This question is important because Treasury issuance has increased substantially in recent years, while the structure of auction demand has also changed. In my sample, primary dealers directly absorb a much smaller share of Treasury auctions than they did ten years ago.
+
+My basic empirical strategy is to match each Treasury auction with the most recent primary dealer inventory in the corresponding maturity bucket. I then test whether auctions have weaker pricing outcomes when dealer inventories are relatively high. The preferred final pricing measure is the conventional auction tail, defined as the auction stop yield minus the when-issued yield immediately before the auction. However, my Bloomberg terminal access is currently available while historical Excel downloads are returning ``N/A Review,'' so I have not yet constructed a complete historical when-issued series. Instead of waiting for this data issue to be resolved, I have already implemented the research design using three outcomes that are entirely constructed from the auction itself: the high-minus-median accepted yield spread, the bid-to-cover ratio, and the primary dealer allotment share. I also use constant-maturity Treasury yields for a separate event-study analysis around auction dates.
+
+I have already obtained and merged the main public data. The Treasury auction data come from TreasuryDirect and the Treasury Fiscal Data API. The raw sample contains 1,213 Note and Bond auctions from January 2015 through October 7, 2026. I remove 142 TIPS auctions, 143 floating-rate note auctions, one incomplete auction, and two special reopenings below \$1 billion, leaving 925 completed nominal fixed-rate Treasury auctions. Primary dealer positions come from the Federal Reserve Bank of New York Primary Dealer Statistics and are matched to auctions by maturity. Daily Treasury yields come from FRED. The dealer position series have reporting changes in 2015, 2022, and 2024, which I account for when constructing a continuous weekly inventory series. My final dealer inventory data contain approximately 612 weekly observations over the sample period.
+
+\newpage
+% ============================================================
+\section{Page 2: Literature Review and Empirical Motivation}
+
+Lou, Yan, and Zhang (2013) document a Treasury auction cycle in which Treasury prices decline before auctions and recover afterward, even though auction timing and size are known in advance. They connect this pattern to limited dealer risk-bearing capacity and slow-moving investor capital. This paper provides the basic motivation for studying whether predictable Treasury issuance can create temporary price pressure even in one of the world's most liquid financial markets.
+
+Fleming, Nguyen, and Rosenberg (2024) study how Treasury dealers manage their inventories using dealer position data from 1990 to 2020. They find that Treasury issuance is an important driver of weekly dealer inventory changes. Dealers do not immediately remove all auction-related inventory and receive compensation for carrying inventory risk through subsequent price appreciation. They also show that dealers reduce position taking and lay off inventories faster when balance-sheet costs are higher. Importantly for my project, they find that greater participation by non-dealers has reduced the compensation dealers receive for absorbing Treasury supply.
+
+More recent research measures dealer constraints more directly. Br\"auning and Stein (2024) use confidential dealer-level data and study shocks to supplementary leverage ratio and value-at-risk constraints. They find that tighter dealer constraints reduce Treasury positions and market turnover, increase intermediation margins, and weaken Treasury auction outcomes. This provides strong evidence that dealer balance-sheet capacity can affect Treasury-market pricing. However, their main identification depends on confidential microdata that are not available in public datasets.
+
+Fleming, Liu, and Nguyen (2026) provide high-frequency evidence on price pressure around Treasury auctions. Using 33 years of intraday data, they find that yields rise in the hours before auctions and reverse afterward. The effect becomes stronger when dealer risk-bearing capacity is tighter and weaker when investor demand is stronger. They also find that auction price pressure has not increased as much as Treasury issuance because non-dealer investors increasingly absorb new supply.
+
+This change in auction participation is very visible in my own sample. The average primary dealer allotment share falls from 34.9 percent in 2015 to 10.2 percent in 2026, while the direct bidder share rises from 11.5 percent to 20.8 percent. At the same time, the bid-to-cover ratio has no clear long-run decline. This means that Treasury supply continues to be absorbed, but the identity of the investors absorbing it has changed.
+
+This creates an important question for the recent Treasury market. Existing research provides strong evidence that dealer constraints can matter, but the dealer-centered intermediation mechanism was developed partly during periods when dealers absorbed a much larger portion of auction supply. My sample asks whether dealer balance-sheet conditions remain visible in auction pricing when dealers are no longer the same marginal direct buyers that they were earlier.
+
+There are also two measurement problems. First, aggregate dealer inventory does not necessarily mean that a constraint is binding. A dealer sector can hold large positions because it is willing to take risk, not because its balance sheet is under stress. Second, broad constant-maturity Treasury yield changes are not the same as the pricing concession on the specific security being auctioned. These problems motivate both the empirical design and the interpretation of my results.
+
+\newpage
+% ============================================================
+\section{Page 3: Contribution and Measurement Improvement}
+
+The first improvement in my approach is to measure dealer inventory at the maturity level rather than using one total Treasury position. I match 2-year auctions with the dealer position bucket of 2 years or less, 3-year auctions with the 2--3 year bucket, 5-year auctions with 3--6 years, 7-year auctions with 6--7 years, and 10-year auctions with 7--11 years. At the long end, the New York Fed reporting system changes in 2022. Before 2022, positions above 11 years are reported together. After 2022, they are separated into 11--21 years and above 21 years. I use these reporting categories to construct the closest possible match for 20-year and 30-year auctions.
+
+The second improvement is the measurement of auction outcomes. My preliminary event study uses constant-maturity Treasury yields. These yields are useful for showing whether price pressure exists around auctions, but they include CPI releases, employment reports, FOMC information, oil-price changes, and other market news. They also do not represent the exact CUSIP being auctioned. The preferred final outcome is therefore:
+
+\begin{equation*}
+\text{Auction Tail}_i \;=\; \text{StopYield}_i \;-\; \text{WIYield}_i^{\text{pre-auction}},
+\end{equation*}
+
+where the when-issued yield is measured immediately before the auction. Bloomberg access has already been approved, but the Excel historical data download is currently returning ``N/A Review.'' I am working to resolve this technical issue. In the meantime, I have advanced the analysis using auction-internal outcomes that contain no macroeconomic information from outside the auction.
+
+The third part of the project is to recognize that inventory and financial constraints are not the same variable. I investigated two possible dealer financing measures. The New York Fed reports weekly repo and reverse-repo financing amounts, but many observations after 2022 are suppressed for confidentiality. The public history of the GCF Repo Index is also too short for my full sample, while longer historical data would require Bloomberg. Therefore, dealer financing conditions will be treated as an extension rather than as part of the baseline specification. I may use the quarterly Senior Credit Officer Opinion Survey on Dealer Financing Terms as a lower-frequency robustness measure.
+
+My contribution is therefore to study whether dealer intermediation conditions remain visible in Treasury auction pricing in a recent period when primary dealers absorb a much smaller share of new issuance. I use transparent public data, maturity-matched dealer inventories, and multiple auction-level pricing and demand measures. The project also examines how much of the dealer-capacity mechanism documented using confidential data can actually be observed using publicly available aggregate data.
+
+\newpage
+% ============================================================
+\section{Page 4: Data and Sample Construction}
+
+My main observation is an individual Treasury auction. The Treasury Fiscal Data API initially provides 1,213 Note and Bond auctions from January 2015 onward. The raw data contain different types of Treasury securities, so sample construction is important. I remove 142 observations for which \texttt{inflation\_index\_security = Yes} because these are TIPS and their auction yields are real rather than nominal yields. I remove another 143 observations for which \texttt{floating\_rate = Yes}. There are no callable securities or cash-management bills in this sample. I also remove one auction with missing auction results because it had not yet occurred at the time of the download. Finally, I remove two special reopenings below \$1 billion because their sizes are extremely different from regular Treasury auctions. The locked sample contains 925 nominal fixed-rate coupon auctions from January 12, 2015 through October 7, 2026.
+
+The sample contains 131 2-year auctions, 141 3-year auctions, 142 5-year auctions, 150 7-year auctions, 143 10-year auctions, 77 20-year auctions, and 141 30-year auctions. The smaller 20-year sample reflects the fact that the Treasury reintroduced the 20-year maturity in 2020. The sample also contains both new issues and reopenings. Reopenings are especially common for the 10-, 20-, and 30-year maturities.
+
+The auction dataset provides several outcome variables that I can use without Bloomberg data. The first is the high-minus-median accepted yield spread. Across all 925 auctions, this variable has a mean of 5.253 basis points, a standard deviation of 1.664 basis points, and ranges from 1.50 to 11.90 basis points. It is always positive because the high accepted yield represents the marginal accepted bid. I do not call this variable an auction tail because it does not compare the auction with the pre-auction market price.
+
+The second outcome is the bid-to-cover ratio. Its sample mean is 2.523 and its standard deviation is 0.213. The third group of outcomes describes the allocation of securities. The average primary dealer allotment share is approximately 20.6 percent, the average indirect bidder share is 55.9 percent, and the average direct bidder share is 14.8 percent. These allocation variables are useful for studying how the composition of demand changes across auctions.
+
+A major descriptive fact is the long-run change in this demand composition. In 2015, primary dealers received approximately 34.9 percent of accepted securities, compared with only 10.2 percent in 2026. Direct bidders increased from about 11.5 percent to 20.8 percent. Indirect bidders also account for a large and growing part of demand in many years. The bid-to-cover ratio remains relatively stable over the same period. Therefore, the data suggest that Treasury supply continues to be absorbed, but increasingly by different types of investors.
+
+The second major dataset is the New York Fed Primary Dealer Statistics. I use weekly outright Treasury coupon positions, excluding TIPS. The reporting system changes during my sample. Most importantly, in 2022 the original greater-than-11-year bucket is divided into an 11--21-year bucket and a greater-than-21-year bucket. To maintain a consistent long-end inventory measure across time, I combine these two newer buckets when necessary. I also account for the 2024 reporting change when joining the series. After these adjustments, I have a continuous weekly dealer-position series across my sample.
+
+For each auction, I assign the most recent inventory observation available before the auction. Inventory is highly persistent and has a strong long-run trend, so using raw dollar inventory could produce misleading results. I therefore standardize inventory within maturity $\times$ year cells. The resulting variable measures whether dealer inventory is unusually high or low relative to other observations for the same maturity during the same year.
+
+I measure auction size using \texttt{offering\_amt}, which is the announced public offering amount. I do not use \texttt{total\_accepted} as the auction-size variable because the accepted amount can include components that are determined after the initial offering. I also construct a relative size measure equal to the current offering amount divided by the average offering amount for the same maturity and year.
+
+Finally, I use daily Treasury constant-maturity yields from FRED to construct auction event windows. I build the trading-day index using non-missing yield observations so that federal holidays do not incorrectly count as trading days.
+
+\newpage
+% ============================================================
+\section{Page 5: Descriptive Evidence and Auction Cycle}
+
+The first descriptive result is the shift in bidder composition. A 30-auction moving average shows that the primary dealer share declines strongly over the sample, while indirect and direct bidder participation increases. This pattern is economically important because it suggests that the marginal buyer of Treasury issuance has changed. It also provides a reason to test whether relationships found in older dealer-centered samples continue to hold in the recent market.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figure1.png}
+\caption{Auction allotment by bidder type and the high-minus-median accepted yield spread, 925 nominal fixed-rate Treasury coupon auctions, 2015--2026. Thirty-auction moving averages.}
+\label{fig:composition}
+\end{figure}
+
+The second descriptive result is evidence of an auction cycle. I examine three event windows: the five trading days ending on the auction date, the five trading days ending one day before the auction, and the ten trading days ending on the auction date.
+
+For the 10-year Treasury, the average yield increase from $t-5$ to $t_0$ is 2.66 basis points, with a $t$-statistic of 2.91. The alternative $t-6$ to $t-1$ window gives an increase of 2.38 basis points with a $t$-statistic of 2.53. For the 30-year Treasury, the corresponding estimates are 2.99 basis points ($t = 3.30$) and 2.15 basis points ($t = 2.31$). Therefore, 10-year and 30-year auctions show significant yield increases in both short event-window definitions.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{figure2.png}
+\caption{Treasury auction cycle in the locked sample. Average yield change relative to the auction day, in basis points, over the five trading days before and after each auction. Shaded bands are $\pm$ one standard error.}
+\label{fig:cycle}
+\end{figure}
+
+The cross-maturity pattern is less stable. The 2-year yield is significantly higher in the $t-6$ to $t-1$ window but changes sign in the $t-5$ to $t_0$ window. The 20-year Treasury shows stronger evidence only in the longer ten-day window. The 3-, 5-, and 7-year results are also sensitive to the window definition. Therefore, I interpret the evidence conservatively: there is clear pre-auction yield pressure, especially around 10-year and 30-year auctions, but the exact cross-maturity pattern depends on the event window. I do not currently interpret these differences as evidence that longer duration mechanically creates more price pressure.
+
+This event-study evidence confirms that an auction-cycle pattern exists in the recent sample, but it does not answer my main research question. Constant-maturity Treasury yields can move because of many macroeconomic events that are unrelated to the auction. I therefore use auction-internal outcomes for the current regression analysis.
+
+\newpage
+% ============================================================
+\section{Page 6: Main Regression Design and Results}
+
+My main explanatory variable is standardized, maturity-matched dealer inventory. The baseline regression for the current analysis is:
+
+\begin{equation*}
+Y_i \;=\; \alpha \;+\; \beta\,\text{InventoryZ}_{m,t-1} \;+\; \gamma\,\text{RelativeSize}_i \;+\; \mu_m \;+\; \lambda_y \;+\; \varepsilon_i ,
+\end{equation*}
+
+where $Y_i$ is alternatively the high-minus-median accepted yield spread, bid-to-cover ratio, or primary dealer allotment share. $\text{InventoryZ}_{m,t-1}$ is maturity-matched dealer inventory standardized within maturity and year. $\text{RelativeSize}_i$ is the announced offering amount divided by the average offering amount for the same maturity and year. $\mu_m$ represents maturity fixed effects and $\lambda_y$ represents year fixed effects.
+
+My main coefficient is $\beta$. If high dealer inventory reflects tighter intermediation capacity, I would expect higher inventory to be associated with a larger high-minus-median spread, a lower bid-to-cover ratio, or potentially a larger dealer allotment if dealers must absorb securities that other investors do not want. However, these outcomes measure different aspects of the auction, so the expected sign is not equally strong for every outcome.
+
+I estimate four specifications: inventory only; inventory plus relative auction size; the same model with maturity fixed effects; and finally maturity and year fixed effects. In the full specification, the dealer inventory coefficient for the high-minus-median spread is $-0.0349$ basis points with a $t$-statistic of $-0.82$. For the bid-to-cover ratio, the coefficient is $-0.0073$ with a $t$-statistic of $-1.37$. For the dealer allotment share, the coefficient is $+0.0024$ with a $t$-statistic of $+1.36$. None of these estimates is statistically significant.
+
+% ---- OPTIONAL TABLE: delete if the page runs long ----
+\begin{table}[htbp]
+\centering
+\caption{Maturity-matched dealer inventory and auction outcomes. Each cell reports the coefficient on standardized dealer inventory, with the $t$-statistic in parentheses. Standard errors are clustered by auction date. $N = 925$.}
+\small
+\begin{tabular}{lccc}
+\toprule
+ & High$-$median & Bid-to-cover & Dealer allotment \\
+Specification & spread (bp) & ratio & share \\
+\midrule
+(1) Inventory only            & $-0.0353$ & $-0.0083$ & $+0.0023$ \\
+                              & $(-0.61)$ & $(-1.13)$ & $(+0.69)$ \\
+(2) $+$ relative size         & $-0.0349$ & $-0.0073$ & $+0.0024$ \\
+                              & $(-0.60)$ & $(-1.02)$ & $(+0.70)$ \\
+(3) $+$ maturity FE           & $-0.0349$ & $-0.0073$ & $+0.0024$ \\
+                              & $(-0.65)$ & $(-1.19)$ & $(+0.76)$ \\
+(4) $+$ maturity and year FE  & $-0.0349$ & $-0.0073$ & $+0.0024$ \\
+                              & $(-0.82)$ & $(-1.37)$ & $(+1.36)$ \\
+\midrule
+$R^2$, specification (4)      & 0.494 & 0.489 & 0.733 \\
+\bottomrule
+\end{tabular}
+\label{tab:main}
+\end{table}
+% ---- end optional table ----
+
+The null result is also stable across maturities. I estimate separate regressions for the 2-, 3-, 5-, 7-, 10-, and 30-year sectors. Across 18 maturity-specific coefficients for the three outcomes, only two have absolute $t$-statistics above 2, which is close to what could occur by chance when many estimates are examined. The significant estimates also do not consistently have the sign predicted by the original hypothesis.
+
+One possible explanation for the null result is that dealer participation has become too small in recent years. I therefore split the sample into 2015--2019, when primary dealers still received about 29 percent of auction supply on average, and 2020--2026, when the average share is approximately 15 percent. This does not explain the null result. For the high-minus-median spread, the inventory coefficient is $-0.0180$ with a $t$-statistic of $-0.30$ in 2015--2019 and $-0.0576$ with a $t$-statistic of $-1.01$ in 2020--2026. An interaction between inventory and the early-period indicator is also insignificant. The bid-to-cover result shows the same pattern.
+
+This result is important for interpretation. The lack of a dealer inventory effect is not only because dealers became smaller direct buyers in recent years. Even during 2015--2019, when they still absorbed close to one-third of supply, aggregate inventory does not predict auction pricing in my data.
+
+The current regressions use standard errors clustered by auction date. Because dealer inventory is observed weekly, I also plan to check week-level clustering as a robustness test. This may be more conservative when several auctions share the same weekly dealer-state observation.
+
+\newpage
+% ============================================================
+\section{Page 7: Demand Composition, Interpretation, and Next Steps}
+
+Although dealer inventory has little relationship with auction outcomes, bidder composition is strongly associated with auction pricing. I standardize indirect and direct bidder shares within maturity and year and include them in the same regression with dealer inventory, relative auction size, maturity fixed effects, and year fixed effects.
+
+For the high-minus-median spread, a one-standard-deviation increase in the indirect bidder share is associated with a 0.280 basis point lower spread, with a $t$-statistic of $-6.58$. A one-standard-deviation increase in direct bidder participation is associated with a 0.180 basis point lower spread, with a $t$-statistic of $-4.01$. For the bid-to-cover ratio, the indirect bidder coefficient is $+0.0410$ with a $t$-statistic of 7.18, while the direct bidder coefficient is $+0.0139$ with a $t$-statistic of 2.45. Dealer inventory remains weak in the same regressions.
+
+I interpret these estimates only as descriptive correlations. Bidder shares and auction outcomes are determined at the same auction. When demand is strong, indirect investors may receive more securities and the auction can also have a smaller high-minus-median spread and a higher bid-to-cover ratio. Therefore, I cannot claim that a higher indirect bidder share causes stronger pricing. The result instead shows that the variables moving most closely with auction pricing in my sample are measures of demand composition rather than the aggregate dealer inventory measure.
+
+There are three possible interpretations of the dealer-inventory null result. First, aggregate dealer inventory may simply be a poor measure of whether dealer balance-sheet constraints are binding. The confidential dealer-level variables used in recent research contain information that aggregate weekly positions do not. Second, although my auction-internal outcomes are much cleaner than five-day Treasury yield changes, they are still not the conventional auction tail. Historical when-issued yields could provide a more precise pricing measure. Third, it is possible that dealer inventory is genuinely less important for marginal auction pricing in the recent Treasury market because a larger share of new supply is now absorbed directly by non-dealer investors.
+
+The Bloomberg when-issued data will help distinguish the second explanation. Terminal access has already been approved through Berkeley, but the Excel historical download is currently returning ``N/A Review.'' I am working on this as a technical data-access issue. Once the historical series is available, my preferred final specification will be:
+
+\begin{equation*}
+\text{Tail}_i \;=\; \alpha \;+\; \beta\,\text{InventoryZ}_{m,t-1} \;+\; \gamma\,\text{RelativeSize}_i \;+\; \mu_m \;+\; \lambda_y \;+\; \varepsilon_i .
+\end{equation*}
+
+A positive $\beta$ would mean that high dealer inventories are associated with larger auction concessions relative to the pre-auction market price. If the coefficient remains close to zero even with a security-specific when-issued tail, the conclusion would be stronger: publicly observable aggregate dealer inventory would not appear to be a useful measure of the intermediation constraints that affect modern Treasury auction pricing.
+
+Dealer financing conditions remain another possible extension, but the public data have important limitations. Weekly New York Fed repo and reverse-repo financing series contain substantial confidential suppression after 2022, while the public GCF history is too short for the full sample. I therefore do not make financing conditions part of my baseline design. The quarterly SCOOS survey may be useful as a lower-frequency robustness check.
+
+At this stage, the evidence already changes how I view the original hypothesis. I began with the idea that high dealer inventory should predict weaker Treasury auctions. The auction-cycle evidence confirms that price pressure around Treasury issuance exists, but aggregate dealer inventory does not explain the auction-internal pricing outcomes that I can currently observe. At the same time, the composition of demand has changed substantially, and bidder participation is strongly related to pricing outcomes. The next stage of the project will test whether the inventory null remains after measuring the auction concession with when-issued yields and will examine more carefully whether the changing role of non-dealer investors helps explain Treasury auction pricing in the recent market.
+
+\newpage
+% ============================================================
+\section*{References}
+\begin{list}{}{%
+  \setlength{\leftmargin}{1.5em}\setlength{\itemindent}{-1.5em}
+  \setlength{\itemsep}{0.6em}\setlength{\parsep}{0pt}}
+
+\item Br\"auning, Falk, and Hillary Stein. 2024. ``The Effect of Primary Dealer Constraints on Intermediation in the Treasury Market.'' Federal Reserve Bank of Boston Research Department Working Paper No.~24-7.
+
+\item Fleming, Michael J., Weiling Liu, and Giang Nguyen. 2026. ``Intraday Price Pressure and Order Flow Around U.S. Treasury Auctions.'' Federal Reserve Bank of New York Staff Report No.~1188.
+
+\item Fleming, Michael J., Giang Nguyen, and Joshua V. Rosenberg. 2024. ``How Do Treasury Dealers Manage Their Positions?'' \textit{Journal of Financial Economics} 158: 103885.
+
+\item Lou, Dong, Hongjun Yan, and Jinfan Zhang. 2013. ``Anticipated and Repeated Shocks in Liquid Markets.'' \textit{The Review of Financial Studies} 26(8): 1891--1912.
+
+\end{list}
+
+\end{document}
