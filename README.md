@@ -2,7 +2,7 @@
 
 Undergraduate research project1, UC Berkeley, Fall 2026.
 
-**[Read the paper (PDF) →](paper/proposal_v2.pdf)**
+**[Read the paper (PDF) →](proposal_v2.pdf.pdf)**
 
 ## Question
 
