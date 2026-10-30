@@ -1,0 +1,39 @@
+# ---------------------------------------------------------------
+#  LICENSED MARKET DATA — NEVER COMMIT
+#  Bloomberg terminal data may not be redistributed under the terms
+#  of the terminal licence. Anything pulled from Bloomberg stays
+#  local, including when-issued yields, GCF repo series and MOVE.
+# ---------------------------------------------------------------
+data/bloomberg/
+*bloomberg*
+*when_issued*
+*wi_yield*
+*_WI.csv
+move*.csv
+gcf*.csv
+
+# Raw downloads (reproducible from the URLs in README.md)
+data/raw/*
+!data/raw/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# LaTeX build artefacts
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.toc
+
+# OS
+.DS_Store
+Thumbs.db
