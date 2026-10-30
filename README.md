@@ -1,6 +1,8 @@
 # Dealer Intermediation Capacity and U.S. Treasury Auction Pricing
 
-Undergraduate research project, Economics 191, UC Berkeley, Fall 2026.
+Undergraduate research project1, UC Berkeley, Fall 2026.
+
+**[Read the paper (PDF) →](paper/proposal_v2.pdf)**
 
 ## Question
 
