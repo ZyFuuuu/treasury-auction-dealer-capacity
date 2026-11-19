@@ -1,0 +1,27 @@
+\begin{table}[htbp]\centering
+\caption{Dealer inventory and the conventional auction tail}
+\label{tab:main}
+\footnotesize
+\begin{tabular}{lcccccc}
+\toprule
+& (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+Dealer inventory ($z$) & $+0.0691$ & $+0.0678$ & $+0.0688$ & $+0.0683$ &  & $+0.0642$ \\
+ & $(0.0531)$ & $(0.0532)$ & $(0.0534)$ & $(0.0534)$ &  & $(0.0518)$ \\[2pt]
+Dealer inventory (trailing 52wk) &  &  &  &  & $+0.0416$ &  \\
+ &  &  &  &  & $(0.0465)$ &  \\[2pt]
+Relative offering size &  & $+0.9867^{*}$ & $+0.9884^{*}$ & $+0.9923^{*}$ & $+1.0056^{*}$ & $+1.9740^{***}$ \\
+ &  & $(0.5729)$ & $(0.5730)$ & $(0.5781)$ & $(0.5752)$ & $(0.5947)$ \\[2pt]
+MOVE index &  &  &  &  &  & $+0.0157^{***}$ \\
+ &  &  &  &  &  & $(0.0040)$ \\[2pt]
+\midrule
+Maturity fixed effects &  &  & \checkmark & \checkmark & \checkmark & \checkmark \\
+Year fixed effects &  &  &  & \checkmark & \checkmark & \checkmark \\
+Auctions & 733 & 733 & 733 & 733 & 733 & 733 \\
+$R^2$ & 0.003 & 0.007 & 0.015 & 0.022 & 0.021 & 0.050 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.95\textwidth}\vspace{4pt}\scriptsize
+\emph{Notes.} The dependent variable is the conventional auction tail in basis points: the stop yield less the when-issued yield at the competitive bidding close, from the Bloomberg auction indices. Dealer inventory is the primary dealer position in the maturity bucket matching the security, taken from the last FR 2004 report published strictly before the auction. Column (5) replaces the within-cell standardisation with the deviation from the security's own trailing 52 weeks, which uses only information available on the day of the auction. Standard errors in parentheses, clustered by auction date (695 clusters). $^{*}$, $^{**}$ and $^{***}$ denote significance at the 10, 5 and 1 percent levels.
+\end{minipage}
+\end{table}
