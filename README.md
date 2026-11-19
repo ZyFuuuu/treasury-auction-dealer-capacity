@@ -2,7 +2,7 @@
 
 Undergraduate research project, Economics 191, UC Berkeley, Fall 2026.
 
-**[Read the paper (PDF) →](paper/proposal_v2.pdf)**
+**[Read the results draft (PDF) →](paper/results_draft.pdf)** · [earlier proposal](paper/proposal_v2.pdf)
 
 ## Question
 
